@@ -60,3 +60,4 @@ typings/
 
 # Web/Phpstorm
 .idea/
+.idea/vcs.xml

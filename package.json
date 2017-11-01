@@ -1,0 +1,23 @@
+{
+  "name": "12drive",
+  "version": "1.0.0",
+  "description": "12drive (Want to drive)",
+  "main": "index.js",
+  "dependencies": {
+    "mariadb": "^0.0.2-security"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaco/12drive.git"
+  },
+  "author": "Us",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/benjaco/12drive/issues"
+  },
+  "homepage": "https://github.com/benjaco/12drive#readme"
+}
