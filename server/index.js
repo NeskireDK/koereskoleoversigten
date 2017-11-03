@@ -6,8 +6,16 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/../static/index.html'));
 });
 
-app.get("/api", function (reg, res) {
+app.get("/api/test", function (reg, res) {
     res.send("test");
+});
+
+
+app.get("/api/*", function (reg, res) {
+    res.send("Endpoint not found");
+});
+app.post("/api/*", function (reg, res) {
+    res.send("Endpoint not found");
 });
 
 
