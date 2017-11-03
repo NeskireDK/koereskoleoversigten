@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "repository": "https://github.com/benjaco/12drive.git",
   "author": "André Eriksen <NeskireDK>, Benjamin Schultz Larsen <benjaco>",
