@@ -19,7 +19,7 @@ app.all("/api/*", function (reg, res) {
     res.json({status: "error"})
 });
 
-// any thing else is found in the static folder
+// anything else is found in the static folder
 app.use('/', express.static(__dirname + '/../static'));
 
 // start the server
