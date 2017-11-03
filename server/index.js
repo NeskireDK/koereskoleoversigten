@@ -9,12 +9,12 @@ app.get('/', function (req, res) {
 });
 
 // handle all api requests
-app.get("/api/example", function (reg, res) { // this is just an example
+app.get("/api/example", function (req, res) { // this is just an example
     res.json({content: "example"});
 });
 
 // handle unmatched api requests before serving static assets
-app.all("/api/*", function (reg, res) {
+app.all("/api/*", function (req, res) {
     res.status(404);
     res.json({status: "error"})
 });
