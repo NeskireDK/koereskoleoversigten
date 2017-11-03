@@ -10,8 +10,9 @@ COPY package.json .
 
 RUN npm install
 
-# Bundle app source
-COPY . .
+COPY server server/
+COPY static static/
+
 
 EXPOSE 80
 ENTRYPOINT [ "npm", "start" ]
