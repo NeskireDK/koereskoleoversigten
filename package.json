@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "express": "^4.16.2",
     "mysql2": "^1.4.2"
   },
   "name": "12drive",
@@ -7,7 +8,7 @@
   "description": "12drive (Want to drive)",
   "main": "index.js",
   "repository": "https://github.com/benjaco/12drive.git",
-  "author": "André Eriksen <NeskireDK@users.noreply.github.com>",
+  "author": "André Eriksen <NeskireDK>, Benjamin Schultz Larsen <benjaco>",
   "license": "UNLICENSED",
   "private": true
 }
