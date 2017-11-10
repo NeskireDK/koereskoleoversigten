@@ -9,7 +9,7 @@ async function createPool() {
         host: '188.166.20.243',
         user: 'webapp',
         password: 'fuckwindows',
-        database: 'test'
+        database: '12drive'
     });
 }
 
