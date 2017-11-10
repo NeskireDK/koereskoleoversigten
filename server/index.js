@@ -10,7 +10,7 @@ route.get('/', (req, res) => {
 });
 
 route.get("/api/test", async (req, res) => {
-    let [data, metadata] = await database.execute("SELECT * FROM `test` where id = ?", [1]);
+    let [data, metadata] = await database.execute("SELECT * FROM `admin` where id = ?", [1]);
     res.json({
         data,
         metadata
