@@ -17,8 +17,8 @@ function getConnection() {
     return pool.getConnection();
 }
 
-function execute(...args) {
-    return pool.execute(...args)
+function execute(sql, values) {
+    return pool.execute(sql, values)
 }
 
 function getPool() {
