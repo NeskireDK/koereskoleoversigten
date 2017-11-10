@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const mysql = require('mysql2/promise');
+const database = require("./database");
 
 
 const app = express();
@@ -11,16 +11,12 @@ app.get('/', function (req, res) {
 });
 
 app.get("/api/test", async (req, res) => {
-    const connection = await mysql.createConnection({
-        host: '188.166.20.243',
-        user: 'webapp',
-        password: 'fuckwindows',
-        database: 'test'
-    });
-    const [rows, fields] = await connection.execute("SELECT * FROM `test`");
+    const [data, metadata] = await database.execute("SELECT * FROM `test` where id = ?", [1]);
 
-    res.json(rows)
-    res.json(fields)
+    res.json({
+        data,
+        metadata
+    })
 
 });
 
@@ -40,7 +36,10 @@ app.use('/', express.static(__dirname + '/../static'));
 
 
 // start the server
-app.listen(80);
+(async ()=>{
+    await database.createPool();
+    app.listen(80);
+})();
 
 
 
