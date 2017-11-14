@@ -1,10 +1,8 @@
-const mysql = require('mysql2/promise');
-
-
+import mysql from "mysql2/promise"
 
 let pool;
 
-async function createPool() {
+export async function createPool() {
     pool = await mysql.createPool({
         connectionLimit: 10,
         host: '188.166.20.243',
@@ -14,21 +12,14 @@ async function createPool() {
     });
 }
 
-function getConnection() {
+export function getConnection() {
     return pool.getConnection();
 }
 
-function execute(sql, values) {
+export function execute(sql, values) {
     return pool.execute(sql, values)
 }
 
-function getPool() {
+export function getPool() {
     return pool;
 }
-
-module.exports ={
-    createPool,
-    getPool,
-    execute,
-    getConnection
-};

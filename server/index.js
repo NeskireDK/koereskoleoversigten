@@ -1,8 +1,9 @@
-const express = require('express');
-const path = require('path');
-const database = require("./database");
+import express from "express"
+import path from 'path'
+import * as database from './database'
 
 const route = express();
+const __dirname = "/usr/src/app/server";
 
 // serve index file from static assets
 route.get('/', (req, res) => {

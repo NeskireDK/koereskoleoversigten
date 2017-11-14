@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@std/esm": "^0.13.0",
     "express": "^4.16.2",
     "mysql2": "^1.4.2"
   },
@@ -9,10 +10,13 @@
   "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/index.js"
+    "start": "node -r @std/esm server/index.js"
   },
   "repository": "https://github.com/benjaco/12drive.git",
   "author": "André Eriksen <NeskireDK>, Benjamin Schultz Larsen <benjaco>",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "@std/esm": {
+    "esm": "js"
+  }
 }
