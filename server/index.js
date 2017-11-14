@@ -1,21 +1,39 @@
 import express from "express"
+import bodyParser from "body-parser"
 import path from 'path'
 import * as database from './database'
+// Models
+import Admin from './model/admin';
 
 const route = express();
 const __dirname = "/usr/src/app/server";
 
+// allow json via body-parser
+route.use( bodyParser.json() );
 // serve index file from static assets
 route.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../static/index.html'));
 });
-
-route.get("/api/test", async (req, res) => {
-    let [data, metadata] = await database.execute("SELECT * FROM `admin` where id = ?", [1]);
+// Get All admins
+route.get("/api/admin", async (req, res) => {
+    let a = await Admin.getAll()
     res.json({
-        data,
-        metadata
+        data : a[0],
     })
+});
+// Get single admin per id
+route.get("/api/admin/:id", async (req, res) => {
+    let a = await Admin.get(req.params.id)
+    res.json({
+        data : a,
+    })
+});
+// Insert admin via Post
+route.post("/api/admin/", async (req, res) => {
+    res.json({
+        res: await Admin.insert(req.body.name,req.body.email,req.body.password)
+    })
+
 });
 
 // handle all api requests
