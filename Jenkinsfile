@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 pipeline {
     agent { dockerfile true }
     stages {
@@ -8,12 +9,11 @@ pipeline {
             }
         }
     }
-
 }
 node{
     post {
             always {
-                archive "target/**/*"
+                archive "*"
                 //  Save unit test, find module fx JUNIT 'target/surefire-reports/*.xml'
             }
         }
