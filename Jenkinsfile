@@ -8,10 +8,13 @@ pipeline {
             }
         }
     }
+
+}
+node{
     post {
-        always {
-            archive "target/**/*"
-            //  Save unit test, find module fx JUNIT 'target/surefire-reports/*.xml'
+            always {
+                archive "target/**/*"
+                //  Save unit test, find module fx JUNIT 'target/surefire-reports/*.xml'
+            }
         }
-    }
 }
