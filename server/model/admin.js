@@ -11,6 +11,7 @@ export default class Admin {
 
     static async getAll(){
         let [data, metadata] = await database.execute("SELECT * FROM `admin`")
+        console.log("Message normal log")
         return [data, metadata]
     }
     static async get(id){

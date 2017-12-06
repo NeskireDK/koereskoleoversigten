@@ -1,4 +1,5 @@
 import express from "express"
+import winston from "winston"
 import bodyParser from "body-parser"
 import path from 'path'
 import * as database from './database'
@@ -7,6 +8,33 @@ import Admin from './model/admin';
 
 const route = express();
 const __dirname = "/usr/src/app/server";
+
+// Logging service
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        //
+        // - Write to all logs with level `info` and below to `combined.log`
+        // - Write all logs error (and below) to `error.log`.
+        //
+        new winston.transports.Console({ colorize: true }),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' })
+    ]
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+    }));
+}
+
+
 
 // allow json via body-parser
 route.use( bodyParser.json() );
@@ -20,6 +48,7 @@ route.get("/api/admin", async (req, res) => {
     res.json({
         data : a[0],
     })
+    console.log("Hello getting all admins!")
 });
 // Get single admin per id
 route.get("/api/admin/:id", async (req, res) => {
@@ -27,13 +56,16 @@ route.get("/api/admin/:id", async (req, res) => {
     res.json({
         data : a,
     })
+    logger.log({
+        level: 'info',
+        message: `Specific Admin was fetched: ${req.params.id}!`
+    });
 });
 // Insert admin via Post
 route.post("/api/admin/", async (req, res) => {
     res.json({
         res: await Admin.insert(req.body.name,req.body.email,req.body.password)
     })
-
 });
 
 // handle all api requests
