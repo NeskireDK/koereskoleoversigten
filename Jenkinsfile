@@ -1,18 +1,14 @@
 pipeline {
     agent {
-        label 'master'
+    dockerfile true
     }
-
-    tools {
-        nodejs 'Node8'
-    }
-
-        stage("build image") {
+    stages {
+        stage('Test') {
             steps {
-                script {
-                    docker.build('12drive')
-                }
+                sh "echoing my env: $NODE_ENV"
+                sh 'node --version'
+                sh 'svn --version'
             }
         }
-    } 
+    }
 }

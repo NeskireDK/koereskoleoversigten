@@ -8,6 +8,9 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install
 
+# Set Environment varibles
+ENV NODE_ENV "Production"
+
 # Copy source code
 COPY server server/
 COPY static static/
