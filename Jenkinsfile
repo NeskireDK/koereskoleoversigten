@@ -6,6 +6,7 @@ pipeline {
     tools {
         nodejs 'Node8'
     }
+	
 /*
     stages {
         stage("yarn build") {
@@ -22,7 +23,7 @@ pipeline {
                 }
             }
         }
-    }
+    } 
 }
 node{
     post {
