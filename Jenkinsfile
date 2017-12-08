@@ -1,17 +1,25 @@
-#!/usr/bin/env groovy
 pipeline {
-    agent { dockerfile true }
+    agent {
+        label 'master'
+    }
+
+    tools {
+        nodejs 'Node8'
+    }
+/*
     stages {
-		stage('prepare path'){
-			steps{
-				echo "Trying to create link"
-				sh "ln -s $HOST_JENKINS_DATA_DIRECTORY/jenkins_data /var/jenkins_home"
-			}
-		}
-        stage('Test') {
+        stage("yarn build") {
             steps {
-                sh 'node --version'
-                sh 'svn --version'
+                sh 'yarn install'
+                sh 'yarn run build-prod'
+            }
+        }
+*/
+        stage("build image") {
+            steps {
+                script {
+                    docker.build('12drive')
+                }
             }
         }
     }
