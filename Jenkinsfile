@@ -1,14 +1,7 @@
-pipeline {
-    agent {
-    dockerfile true
-    }
-    stages {
-        stage('Test') {
-            steps {
-                sh "echoing my env: $NODE_ENV"
-                sh 'node --version'
-                sh 'svn --version'
-            }
-        }
-    }
+node {
+    checkout scm
+    def customImage = docker.build("12drive:${env.BUILD_ID}")
+    //customImage.push()
+
+    //customImage.push('latest')
 }
