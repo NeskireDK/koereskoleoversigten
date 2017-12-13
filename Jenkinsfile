@@ -1,7 +1,9 @@
 node {
     checkout scm
-    def customImage = docker.build("gcr.io/drive-jenkins/koereskoleoversigten:${env.BUILD_ID}")
-    customImage.push()
+    docker.withRegistry('gcr.io','google-service-account'){
+        def customImage = docker.build("gcr.io/drive-jenkins/koereskoleoversigten:${env.BUILD_ID}")
+        customImage.push()
 
-    //customImage.push('latest')
+        //customImage.push('latest')
+    }
 }
