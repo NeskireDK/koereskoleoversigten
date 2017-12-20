@@ -1,17 +1,22 @@
 pipeline {
 	agent { dockerfile true }
-	stages {
-		stage('Build image') {
-			app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten:${env.BUILD_ID}")
-		}
-	
-		stage('push me, and then just touch me'){
-			steps{
-				docker.withRegistry('https://eu.gcr.io'){
-					app.push("${env.BUILD_NUMBER}")
-					app.push("latest")
-				}
+    stages {
+        stage('build') {
+            steps {
+                git branch: 'master', credentialsId: '12drive-neskiredk-backend', url: 'https://github.com/NeskireDK/koereskoleoversigten'
+                sh 'mvn clean package'
+            }
+        }
+        stage('verify') {
+            steps {
+                sh 'ls -alF target'
+            }
+        }        
+        stage('docker') {
+			withDockerRegistry([credentialsId: 'google-service-account', url: 'https://eu.gcr.io']) {
+				def app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten",'.')
+				app.push()
 			}
-		}
-	}
+        }
+    }
 }
