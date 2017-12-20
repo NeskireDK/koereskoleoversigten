@@ -14,9 +14,11 @@ pipeline {
         }        
         stage('docker') {
 			steps{
-				withDockerRegistry([credentialsId: 'google-service-account', url: 'https://eu.gcr.io']) {
-					def app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten",'.')
-					app.push()
+				script{
+					withDockerRegistry([credentialsId: 'google-service-account', url: 'https://eu.gcr.io']) {
+						def app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten",'.')
+						app.push()
+					}
 				}
 			}
         }
