@@ -1,13 +1,12 @@
 pipeline {
 	agent { dockerfile true }
 	stages {
-		stage('Lets do it!!') {
+		stage('Build image') {
 			steps{
-				stage('Build image') {
-					app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten:${env.BUILD_ID}")
-				}
+				app = docker.build("gcr.io/drive-jenkins/koereskoleoversigten:${env.BUILD_ID}")
 			}
 		}
+	
 		stage('push me, and then just touch me'){
 			steps{
 				docker.withRegistry('https://eu.gcr.io'){
