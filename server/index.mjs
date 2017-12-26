@@ -10,7 +10,7 @@ const route = express();
 const __dirname = "/usr/src/app/server";
 
 // Logging service
-const logger = winston.createLogger({
+let logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
     transports: [

@@ -1,5 +1,5 @@
 # Choose base-image
-FROM node:carbon
+FROM node:latest
 
 # Define app directory
 WORKDIR /usr/src/app
