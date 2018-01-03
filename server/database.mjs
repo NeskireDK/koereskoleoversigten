@@ -20,6 +20,10 @@ export function execute(sql, values) {
     return pool.execute(sql, values)
 }
 
+export function query(...args) {
+    return pool.query(...args)
+}
+
 export function getPool() {
     return pool;
 }

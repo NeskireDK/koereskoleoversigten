@@ -6,14 +6,15 @@
     "configurations": [
         
         {
-            "name": "Docker: Attach to Node",
+            "name": "Docker'ish: Attach to Node",
             "type": "node",
             "request": "attach",
             "port": 9229,
             "address": "localhost",
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "/usr/src/app",
-            "protocol": "inspector"
+            "protocol": "inspector",
+            "restart": "true"
         }
-    ]
+    ]   
 }
