@@ -43,7 +43,7 @@ console.debug = (...args) => logger.debug(...args);
 
 //
 console.log("Process running in " + process.env.NODE_ENV + " mode")
-if (process.env.NODE_ENV == 'dev') {
+if (process.env.NODE_ENV === 'dev') {
     logger.add(new winston.transports.Console({
         format: winston.format.simple()
     }));
