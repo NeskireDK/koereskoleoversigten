@@ -1,13 +1,16 @@
 version: "2"
 services:
   node:
-    image: "node:8"
-    user: "node"
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    image: "kson"
+    command: npm start
     working_dir: /usr/src/app
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=dev
     volumes:
-      - ./:/usr/src/app
-    expose:
-      - '8080'
-    command: "npm start"
+      - ./server/:/usr/src/app/server
+    ports:
+      - 8080:8080
+      - 9229:9229

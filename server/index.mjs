@@ -3,10 +3,17 @@ import winston from "winston"
 import bodyParser from "body-parser"
 import path from 'path'
 import * as database from './database'
-// Models
-import Admin from './model/admin';
-
+// Routes  - Initialize Express and Import routes. 
 const route = express();
+route.use( bodyParser.json() );
+
+import adminRoute from './routes/adminRoute'
+adminRoute.Initialize(route)
+
+import courseRoute from './routes/courseRoute'
+courseRoute.Initialize(route)
+
+
 const __dirname = "/usr/src/app/server";
 
 // Logging service
@@ -27,46 +34,25 @@ let logger = winston.createLogger({
 //
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+
+console.log = (...args) => logger.info(...args);
+console.info = (...args) => logger.info(...args);
+console.warn = (...args) => logger.warn(...args);
+console.error = (...args) => logger.error(...args);
+console.debug = (...args) => logger.debug(...args);
+
 //
 console.log("Process running in " + process.env.NODE_ENV + " mode")
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV == 'dev') {
     logger.add(new winston.transports.Console({
         format: winston.format.simple()
     }));
 }
 
-
-
 // allow json via body-parser
-route.use( bodyParser.json() );
 // serve index file from static assets
 route.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../static/index.html'));
-});
-// Get All admins
-route.get("/api/admin", async (req, res) => {
-    let a = await Admin.getAll()
-    res.json({
-        data : a[0],
-    })
-    console.log("Hello getting all admins!")
-});
-// Get single admin per id
-route.get("/api/admin/:id", async (req, res) => {
-    let a = await Admin.get(req.params.id)
-    res.json({
-        data : a,
-    })
-    logger.log({
-        level: 'info',
-        message: `Specific Admin was fetched: ${req.params.id}!`
-    });
-});
-// Insert admin via Post
-route.post("/api/admin/", async (req, res) => {
-    res.json({
-        res: await Admin.insert(req.body.name,req.body.email,req.body.password)
-    })
 });
 
 // handle all api requests
@@ -79,6 +65,7 @@ route.all("/api/*", (req, res) => {
     res.status(404);
     res.json({status: "error"})
 });
+
 
 // anything else is found in the static folder
 route.use('/', express.static(__dirname + '/../static'));
