@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="kso-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello a driving [[prop1]]!</h2>
+
+    <img src="assets/maxresdefault.jpg" />
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class KsoApp extends Polymer.Element {
+      static get is() { return 'kso-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'kso-ap driving schoolp'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(KsoApp.is, KsoApp);
+  </script>
+</dom-module>

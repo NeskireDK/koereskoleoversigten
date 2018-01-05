@@ -6,7 +6,9 @@ WORKDIR /usr/src/app
 
 
 # Install app dependencies
-COPY package.json package-lock.json ./
+RUN npm install -g nodemon
+
+COPY package.json ./
 RUN npm install
 
 # Set Environment varibles
@@ -14,8 +16,9 @@ ENV NODE_ENV "Production"
 
 # Copy source code
 COPY server server/
-COPY static static/
+COPY static_driverschool static_driverschool/
+COPY static_frontend static_frontend/
 
 # Start container & expose port 80 (internal)
-EXPOSE 80
-ENTRYPOINT [ "npm", "start" ]
+EXPOSE 80 9229
+CMD [ "npm", "start" ]

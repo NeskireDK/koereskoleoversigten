@@ -50,10 +50,6 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 // allow json via body-parser
-// serve index file from static assets
-route.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../static/index.html'));
-});
 
 // handle all api requests
 route.get("/api/example", (req, res) => { // this is just an example
@@ -66,9 +62,22 @@ route.all("/api/*", (req, res) => {
     res.json({status: "error"})
 });
 
-
-// anything else is found in the static folder
-route.use('/', express.static(__dirname + '/../static'));
+const servePolymerApp = (router, prefixPath, folderName) => {
+    if (process.env.NODE_ENV === 'dev') {
+        router.get(prefixPath, (req, res) => {
+            res.sendFile(path.resolve(__dirname + '/../'+folderName+'/index.html'));
+        });
+        router.use(prefixPath, express.static(__dirname + '/../'+folderName));
+    }else{
+        router.get(prefixPath, (req, res) => {
+            res.sendFile(path.resolve(__dirname + '/../'+folderName+'/build/default/index.html'));
+        });
+        router.use(prefixPath+'assets', express.static(__dirname + '/../'+folderName+'/assets'));
+        router.use(prefixPath, express.static(__dirname + '/../'+folderName+'/build/default'));
+    }
+};
+servePolymerApp(route, "/k/", "static_driverschool");
+servePolymerApp(route, "/", "static_frontend");
 
 
 // start the server
