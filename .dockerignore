@@ -2,5 +2,7 @@
 .idea
 node_modules
 npm-debug.log
-static/bower_components
-static/build
+static_driverschool/bower_components
+static_driverschool/build
+static_frontend/bower_components
+static_frontend/build
