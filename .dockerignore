@@ -2,3 +2,5 @@
 .idea
 node_modules
 npm-debug.log
+static/bower_components
+static/build
