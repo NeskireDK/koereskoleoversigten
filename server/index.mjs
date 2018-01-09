@@ -62,22 +62,29 @@ route.all("/api/*", (req, res) => {
     res.json({status: "error"})
 });
 
-const servePolymerApp = (router, prefixPath, folderName) => {
-    if (process.env.NODE_ENV === 'dev') {
-        router.get(prefixPath, (req, res) => {
-            res.sendFile(path.resolve(__dirname + '/../'+folderName+'/index.html'));
-        });
-        router.use(prefixPath, express.static(__dirname + '/../'+folderName));
-    }else{
-        router.get(prefixPath, (req, res) => {
-            res.sendFile(path.resolve(__dirname + '/../'+folderName+'/build/default/index.html'));
-        });
-        router.use(prefixPath+'assets', express.static(__dirname + '/../'+folderName+'/assets'));
-        router.use(prefixPath, express.static(__dirname + '/../'+folderName+'/build/default'));
+const servePolymerApp = (folderName) => {
+    let route = express();
+
+    route.use("/assets", express.static(folderName + '/assets'));
+
+    if (process.env.NODE_ENV !== 'dev') {
+        folderName += "/build/default"
     }
+
+    route.use("/bower_components", express.static(folderName + '/bower_components'));
+    route.use("/src", express.static(folderName + '/src'));
+    route.get("/manifest.json", (req, res) => {
+        res.sendFile(path.resolve(folderName+'/manifest.json'));
+    });
+    route.use("/", (req, res) => {
+        res.sendFile(path.resolve(folderName+'/index.html'));
+    });
+
+    return route
 };
-servePolymerApp(route, "/k/", "static_driverschool");
-servePolymerApp(route, "/", "static_frontend");
+
+route.use("/k", servePolymerApp(__dirname+"/../static_driverschool"));
+route.use("/", servePolymerApp(__dirname+"/../static_frontend"));
 
 
 // start the server

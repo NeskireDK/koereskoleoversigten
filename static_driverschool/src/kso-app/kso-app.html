@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <dom-module id="kso-app">
   <template>
@@ -7,9 +9,13 @@
         display: block;
       }
     </style>
-    <h2>Hello a driving [[prop1]]!</h2>
+    <app-location route="{{route}}"></app-location>
 
-    <img src="assets/maxresdefault.jpg" />
+    <a href="test/2">test</a>
+
+
+    <p>{{json(route)}}</p>
+
 
   </template>
 
@@ -21,12 +27,11 @@
     class KsoApp extends Polymer.Element {
       static get is() { return 'kso-app'; }
       static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'kso-ap driving schoolp'
-          }
-        };
+        return {};
+      }
+
+      json(data){
+          return JSON.stringify(data);
       }
     }
 
