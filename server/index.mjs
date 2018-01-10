@@ -1,4 +1,4 @@
-import * as logging from "./logging"
+import "./logging"
 import express from "express"
 import bodyParser from "body-parser"
 import path from 'path'

@@ -1,7 +1,7 @@
 import winston from "winston"
 
 // Logging service
-default export const logger = winston.createLogger({
+export const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
     transports: [
