@@ -8,7 +8,7 @@ COPY package.json ./
 RUN npm install
 
 # Set Environment varibles
-ENV NODE_ENV "Production"
+ENV NODE_ENV "prod"
 
 # Copy source code
 COPY server server/

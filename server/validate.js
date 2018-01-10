@@ -27,10 +27,12 @@
         window.validations = validations;
         window.setupValidationMessages = setupErrorMessages;
     }
-    if (typeof module.exports !== "undefined") {
-        module.exports = {
-            validations: validations,
-            setupValidationMessages: setupErrorMessages
+    if (typeof module !== "undefined") {
+        if (typeof module.exports !== "undefined") {
+            module.exports = {
+                validations: validations,
+                setupValidationMessages: setupErrorMessages
+            }
         }
     }
 })();

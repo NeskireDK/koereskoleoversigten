@@ -1,5 +1,5 @@
+import * as logging from "./logging"
 import express from "express"
-import winston from "winston"
 import bodyParser from "body-parser"
 import path from 'path'
 import * as database from './database'
@@ -12,39 +12,6 @@ import courseRoute from './routes/courseRoute'
 
 
 const __dirname = "/usr/src/app/server";
-
-
-// Logging service
-let logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    transports: [
-        //
-        // - Write to all logs with level `info` and below to `combined.log`
-        // - Write all logs error (and below) to `error.log`.
-        //
-        new winston.transports.Console({colorize: true}),
-        new winston.transports.File({filename: 'error.log', level: 'error'}),
-        new winston.transports.File({filename: 'combined.log'})
-    ]
-});
-
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-
-console.log = (...args) => logger.info(...args);
-console.info = (...args) => logger.info(...args);
-console.warn = (...args) => logger.warn(...args);
-console.error = (...args) => logger.error(...args);
-console.debug = (...args) => logger.debug(...args);
-
-console.log("Process running in " + process.env.NODE_ENV + " mode");
-if (process.env.NODE_ENV === 'dev') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple()
-    }));
-}
 
 
 // Routes  - Initialize Express and Import routes.
@@ -106,6 +73,7 @@ route.use("/", servePolymerApp(__dirname + "/../static_frontend"));
 (async () => {
     await database.createPool();
     route.listen(80);
+    console.log("Server is running")
 })();
 
 
