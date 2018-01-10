@@ -4,10 +4,6 @@ FROM node:latest
 # Define app directory
 WORKDIR /usr/src/app
 
-
-# Install app dependencies
-RUN npm install -g nodemon
-
 COPY package.json ./
 RUN npm install
 
