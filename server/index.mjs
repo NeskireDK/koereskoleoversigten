@@ -1,3 +1,8 @@
+process.on('uncaughtException', function (err) {
+    debugger
+    console.log('Caught exception: ', err);
+});
+
 import "./logging"
 import express from "express"
 import bodyParser from "body-parser"
@@ -12,7 +17,6 @@ import courseRoute from './routes/courseRoute'
 
 
 const __dirname = "/usr/src/app/server";
-
 
 // Routes  - Initialize Express and Import routes.
 const route = express();

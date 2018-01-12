@@ -13,4 +13,4 @@ export const validatePost = function (validationConstraints) {
             res.status(400).json(validationError)
         }
     }
-};
+}

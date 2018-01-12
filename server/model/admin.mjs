@@ -28,11 +28,20 @@ export default class Admin {
         }
     }
     async update(){
+        console.log('Doing stuff')
         try {
             let [data, metadata] = await database.query(`
             UPDATE admin 
-            SET ? WHERE id = ?`,
-                [this, this.id])
+            SET name=?,
+            email=?,
+            password=?,
+            media_id=?,            
+            WHERE id=?`,
+                this.name,
+                this.email,
+                this.password,
+                this.media_id,
+                this.id)
             return data;
         }catch(err) {
             return {error : err}

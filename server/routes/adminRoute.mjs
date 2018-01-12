@@ -30,12 +30,11 @@ export default class AdminRoute {
                 res: await obj.insert()
             })
         });
-        // Update admin via Post
+        // Update admin via Put
         route.put("/api/admin/:id", async (req, res) => {
             let obj = await Admin.get(req.params.id)
                 
             if(obj){
-                
                 Object.assign(obj, req.body)
                 res.json({
                     res: await obj.update()

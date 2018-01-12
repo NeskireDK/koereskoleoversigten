@@ -7,11 +7,14 @@ export default class Course {
             this[prop]=data[prop]
         }
     }
-
     
     static async get(id){
         let [data, metadata] = await database.execute("SELECT * FROM `course` where id = ?", [id])
-        return data
+        if(!data[0]){
+            console.info("No such course by id: "+id)
+            return null
+        }
+        return new Course(data[0])
     }
     static async getAll(id){
         let [data, metadata] = await database.execute("SELECT * FROM `course`")
@@ -19,7 +22,6 @@ export default class Course {
     }
     async insert(){
         try {
-            
             moment.locale('da')
             this.created = moment().format("YYYY-MM-DD HH:mm:ss")
             let [data, metadata] = await database.query(`
@@ -32,5 +34,24 @@ export default class Course {
             console.warn("Failed to create Course "+this.title+" Created for school: " + this.school_id)
             return {error : err}
         }
+    }
+    async update(){
+        // try {
+            moment.locale('da')
+            this.updated = moment().format("YYYY-MM-DD HH:mm:ss")
+            let [data, metadata] = await database.query(`
+            UPDATE course 
+            SET ? 
+            WHERE id = ?`,
+                this, this.id)
+            console.info("Course "+this.title+" updated for school: " + this.school_id)
+            return this;
+        // }catch(err) {
+        //     console.warn("Failed to Update Course "+this.title+" for school_Id: " + this.school_id)
+        //     for(let key of Object.keys(err)){
+        //         console.log(key +' = '+ err[key])
+        //     }
+        //     return {error : err}
+        // }
     }
 }

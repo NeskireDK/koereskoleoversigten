@@ -1,18 +1,28 @@
 (function () {
     var validations = {
-        courseConstraints: {
-            school_id: {
-                presence: true,
-                numericality: {
-                    onlyInteger: true,
-                    greaterThan: 0,
-                },
+        course: {
+            insert:{
+                school_id: {
+                    presence: true,
+                    numericality: {
+                        onlyInteger: true,
+                        greaterThan: 0
+                    }
 
+                },
+                title: {
+                    presence: true,
+                    length: {
+                        minimum: 6
+                    }
+                }
             },
-            title: {
-                presence: true,
-                length: {
-                    minimum: 6,
+            update:{
+                title: {
+                    presence: true,
+                    length: {
+                        minimum: 6
+                    }
                 }
             }
         }
