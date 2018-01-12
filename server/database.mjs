@@ -5,10 +5,10 @@ let pool;
 export async function createPool() {
     pool = await mysql.createPool({
         connectionLimit: 10,
-        host: '188.166.20.243',
+        host: '104.197.147.249',
         user: 'webapp',
         password: 'fuckwindows',
-        database: '12drive'
+        database: 'kso'
     });
 }
 
