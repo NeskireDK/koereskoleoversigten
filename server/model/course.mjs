@@ -10,16 +10,47 @@ export default class Course {
     }
 
     static async get(id) {
-        let [data, metadata] = await database.execute("SELECT * FROM `course` WHERE ID = ?", [id])
-        if (!data[0]) {
-            console.info("No such course by id: " + id)
-            return null
+        console.log("Break??")
+        let [data, metadata] = await database.execute(`
+            SELECT
+                c.id,
+                c.title title,
+                c.description description,
+                c.created,
+                c.school_id,
+                s.name school,
+                s.description schoolInfo,
+                s.street,
+                s.zip,
+                s.media_id,
+                s.id schoolId
+            FROM course c
+            LEFT JOIN school s ON c.school_id=s.id
+            WHERE c.id = ?`, [id])
+        if (data[0]) {
+            return new Course(data[0])
         }
-        return new Course(data[0])
+        console.info("No such course by id: " + id)
+        return null
     }
 
-    static async getAll(id) {
-        let [data, metadata] = await database.execute("SELECT * FROM course")
+    static async getAll() {
+        console.log("Break??")
+        let [data, metadata] = await database.execute(`
+            SELECT
+                c.id,
+                c.title title,
+                c.description description,
+                c.created,
+                c.school_id,
+                s.name school,
+                s.description schoolInfo,
+                s.street,
+                s.zip,
+                s.media_id,
+                s.id schoolId
+            FROM course c
+            JOIN school s ON c.school_id=s.id`)
         return data
     }
 
@@ -61,7 +92,7 @@ export default class Course {
             for (let key of Object.keys(err)) {
                 console.warn(key + ' = ' + err[key])
             }
-            return {error: err.toJSON()}
+            return {error: err}
         }
     }
 }

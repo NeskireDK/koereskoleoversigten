@@ -20,8 +20,6 @@ export default class courseRoute {
                 data: a,
             })
             console.error(`Specific course was fetched: ${req.params.id}!`)
-
-
         });
         // Insert course via Post
         route.post("/api/course/", middleware.validatePost(v.validations.course.insert), async (req, res) => {
@@ -37,12 +35,15 @@ export default class courseRoute {
             // Get by id
             var obj = await course.get(req.params.id)
             // Update
-            for(let prop of ['title','description',]){
-                obj[prop]=req.body[prop]
+            if(obj){
+                Object.assign(obj, req.body)
+                res.json({
+                    res: await obj.update()
+                })
+            } else {
+                res.sendStatus(404)
             }
-            res.json({
-                res: await obj.update()
-            })
+
         });
     }
 }
