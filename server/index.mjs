@@ -3,7 +3,7 @@ process.on('uncaughtException', function (err) {
     console.log('Caught exception: ', err);
 });
 
-import "./logging"
+// import "./logging"
 import express from "express"
 import bodyParser from "body-parser"
 import path from 'path'
@@ -14,6 +14,7 @@ import v from "./validate";
 // import routes
 import adminRoute from './routes/adminRoute'
 import courseRoute from './routes/courseRoute'
+import schoolRoute from './routes/schoolRoute'
 
 
 const __dirname = "/usr/src/app/server";
@@ -23,8 +24,10 @@ const route = express();
 route.use(bodyParser.urlencoded({extended: false}));
 route.use(bodyParser.json());
 
+// initialize routes
 adminRoute.Initialize(route);
 courseRoute.Initialize(route);
+schoolRoute.Initialize(route);
 
 
 // handle all api requests

@@ -25,6 +25,44 @@
                     }
                 }
             }
+        },
+        school: {
+            insert:{
+                zip: {
+                    presence: true,
+                    numericality: {
+                        digits:4
+                    }
+                },
+                name: {
+                    presence: true,
+                    length: {
+                        minimum: 6
+                    }
+                },
+                street:{
+                    format: {
+                        // Must be numbers followed by a name
+                        pattern: "\\w+(\\s\\w+){2,}",
+                        message: "kræver både navn og nummer"
+                    }
+                }
+            },
+            update:{
+                name: {
+                    presence: true,
+                    length: {
+                        minimum: 6
+                    }
+                },
+                street:{
+                    format: {
+                        pattern: /\w+ \s \d+/,
+                        message: "^ kræver både navn og nummer"
+                    }
+                }
+
+            }
         }
     };
 
