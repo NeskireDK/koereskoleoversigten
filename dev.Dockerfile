@@ -5,8 +5,7 @@ FROM node:latest
 WORKDIR /usr/src/app
 
 # Install app dependencies
-RUN npm install -g nodemon && npm install -g bower
-RUN echo '{ "allow_root": true }' > /root/.bowerrc
+RUN npm install -g nodemon && npm install -g bower && echo '{ "allow_root": true }' > /root/.bowerrc
 
 COPY package.json ./
 RUN npm install
