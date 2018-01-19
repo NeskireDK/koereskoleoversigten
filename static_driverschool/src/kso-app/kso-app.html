@@ -1,40 +1,77 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="auth-0.html">
+<link rel="import" href="data-share.html">
+
+
 
 <dom-module id="kso-app">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <app-location route="{{route}}"></app-location>
-
-    <a href="test/2">test</a>
-
-
-    <p>{{json(route)}}</p>
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <auth-0 id="auth0" user="{{user}}"></auth-0>
+        <data-share key="user" data="{{user}}"></data-share>
+        <app-location route="{{route}}"></app-location>
 
 
-  </template>
+        <template is="dom-if" if="{{user}}">
+            <p>U ar loggedin as {{user.email}} <button on-click="logout">Logout</button></p>
 
-  <script>
-    /**
-     * @customElement
-     * @polymer
-     */
-    class KsoApp extends Polymer.Element {
-      static get is() { return 'kso-app'; }
-      static get properties() {
-        return {};
-      }
 
-      json(data){
-          return JSON.stringify(data);
-      }
-    }
 
-    window.customElements.define(KsoApp.is, KsoApp);
-  </script>
+        </template>
+        <template is="dom-if" if="{{!user}}">
+            <p>Login </p><button on-click="login">Here</button>
+        </template>
+
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class KsoApp extends Polymer.Element {
+            static get is() {
+                return 'kso-app';
+            }
+
+            constructor(){
+                super();
+
+                ajax("/api/example").then(r => r.json()).then(data => {
+                    console.log(data)
+                })
+
+                ajax("/api/secure_example").then(r => r.json()).then(data => {
+                    console.log(data)
+                })
+            }
+
+            static get properties() {
+                return {};
+            }
+
+            login() {
+                this.$.auth0.openLoginPopup()
+            }
+            logout() {
+                this.$.auth0.logout()
+            }
+
+            json(data) {
+                return JSON.stringify(data);
+            }
+
+        }
+
+        window.customElements.define(KsoApp.is, KsoApp);
+    </script>
 </dom-module>

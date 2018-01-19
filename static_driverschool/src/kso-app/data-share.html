@@ -1,0 +1,98 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="data-share">
+    <template>
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+    </template>
+
+    <script>
+        class DataShare extends Polymer.Element {
+            static get is() {
+                return 'data-share';
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                DataShare.registredElements.push(this);
+
+
+                if (!this.hasAttribute("do-not-broadcast-on-init") && !this.hasAttribute("do-not-broadcast")) {
+                    if (typeof DataShare.data[this.key] !== "undefined") {
+
+                        if (typeof this.data === "undefined") {
+                            this.data = DataShare.data[this.key];
+                            this.dispatchChangeEvent();
+                        } else {
+                            this._changed();
+                        }
+                    } else {
+                        this._changed();
+                    }
+                } else if (typeof DataShare.data[this.key] !== "undefined") {
+                    this.data = DataShare.data[this.key];
+                    this.dispatchChangeEvent();
+                }
+
+
+            }
+            dispatchChangeEvent(){
+                this.dispatchEvent(new CustomEvent('data-changed', {
+                    bubbles: false,
+                    detail: this.data
+                }));
+            }
+
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                const i = DataShare.registredElements.indexOf(this);
+                if (i >= 0) {
+                    DataShare.registredElements.splice(i, 1);
+                }
+            }
+
+            static get properties() {
+                return {
+                    data: {
+                        observer: '_changed'
+                    },
+                    key: String
+                }
+            }
+
+            _changed() {
+                if (typeof this.data === "undefined" && typeof DataShare.data[this.key] === "undefined") {
+                    return;
+                }
+
+                if (this.hasAttribute("do-not-broadcast")) {
+                    return;
+                }
+
+
+                DataShare.data[this.key] = this.data;
+
+
+                for (let element of DataShare.registredElements) {
+                    if (element === this) {
+                        continue;
+                    }
+                    if (element.key !== this.key) {
+                        continue;
+                    }
+                    element.data = this.data;
+                    element.dispatchChangeEvent();
+                }
+            }
+        }
+
+        DataShare.registredElements = [];
+        DataShare.data = [];
+
+
+        window.customElements.define(DataShare.is, DataShare);
+    </script>
+</dom-module>
