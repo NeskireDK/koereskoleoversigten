@@ -22,8 +22,8 @@ export default class Admin {
     async insert() {
         try {
             let [data, metadata] = await database.query(`
-            INSERT INTO admin 
-            SET ?`,
+                  INSERT INTO admin
+                  SET ?`,
                 this)
             return this;
         } catch (err) {
@@ -35,12 +35,12 @@ export default class Admin {
         console.log('Running update')
         try {
             let [data, metadata] = await database.query(`
-            UPDATE admin 
-            SET name=?,
-            email   =?,
-            password=?,
-            media_id=?            
-            WHERE id=?`, [
+              UPDATE admin
+              SET name   = ?,
+                email    = ?,
+                password = ?,
+                media_id = ?
+              WHERE id = ?`, [
                 this.name,
                 this.email,
                 this.password,

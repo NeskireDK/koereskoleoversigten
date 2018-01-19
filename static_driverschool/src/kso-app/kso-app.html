@@ -52,6 +52,8 @@
 
                 ajax("/api/secure_example").then(r => r.json()).then(data => {
                     console.log(data)
+                }).catch(e => {
+                    console.log(e)
                 })
             }
 

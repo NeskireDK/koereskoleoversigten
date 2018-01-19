@@ -1,7 +1,7 @@
 (function () {
     var validations = {
         course: {
-            insert:{
+            insert: {
                 school_id: {
                     presence: true,
                     numericality: {
@@ -17,7 +17,7 @@
                     }
                 }
             },
-            update:{
+            update: {
                 title: {
                     presence: true,
                     length: {
@@ -27,11 +27,11 @@
             }
         },
         school: {
-            insert:{
+            insert: {
                 zip: {
                     presence: true,
                     numericality: {
-                        digits:4
+                        digits: 4
                     }
                 },
                 name: {
@@ -40,7 +40,7 @@
                         minimum: 6
                     }
                 },
-                street:{
+                street: {
                     format: {
                         // Must be numbers followed by a name
                         pattern: /\w+ \s \d+/,
@@ -48,14 +48,14 @@
                     }
                 }
             },
-            update:{
+            update: {
                 name: {
                     presence: true,
                     length: {
                         minimum: 6
                     }
                 },
-                street:{
+                street: {
                     format: {
                         pattern: /\w+ \s \d+/,
                         message: "^ kræver både navn og nummer"

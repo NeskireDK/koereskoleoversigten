@@ -5,7 +5,7 @@ import v from "../validate";
 export default class schoolRoute {
     static Initialize(route) {
         console.debug("initializing schoolRoute")
-          // Get All schools
+        // Get All schools
         route.get("/api/school", async (req, res) => {
             let a = await school.getAll()
             res.json({
@@ -24,7 +24,11 @@ export default class schoolRoute {
         // Insert school via Post
         route.post("/api/school/", middleware.validatePost(v.validations.school.insert), async (req, res) => {
             // validate all properties
-            const obj = new school({ title: req.body.title, description: req.body.description, school_id: req.body.school_id })
+            const obj = new school({
+                title: req.body.title,
+                description: req.body.description,
+                school_id: req.body.school_id
+            })
             res.json({
                 res: await obj.insert()
             })
@@ -35,7 +39,7 @@ export default class schoolRoute {
             // Get by id
             var obj = await school.get(req.params.id)
             // Update
-            if(obj){
+            if (obj) {
                 Object.assign(obj, req.body)
                 res.json({
                     res: await obj.update()
