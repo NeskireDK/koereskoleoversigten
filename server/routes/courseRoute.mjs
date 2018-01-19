@@ -2,7 +2,7 @@ import course from '../model/course';
 import * as middleware from '../middleware';
 import v from "../validate";
 
-export default class courseRoute {
+export default class CourseRoute {
     static Initialize(route) {
 
         // Get All courses

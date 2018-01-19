@@ -2,9 +2,8 @@ import school from '../model/school';
 import * as middleware from '../middleware';
 import v from "../validate";
 
-export default class schoolRoute {
+export default class SchoolRoute {
     static Initialize(route) {
-        console.debug("initializing schoolRoute")
         // Get All schools
         route.get("/api/school", async (req, res) => {
             let a = await school.getAll()

@@ -12,10 +12,12 @@ import * as middleware from './middleware.mjs';
 import v from "./validate";
 import * as utils from "./utils"
 
+
 // import routes
 import adminRoute from './routes/adminRoute'
 import courseRoute from './routes/courseRoute'
 import schoolRoute from './routes/schoolRoute'
+import courseModuleRoute from './routes/courseModuleRoute'
 
 
 const __dirname = "/usr/src/app/server";
@@ -29,6 +31,7 @@ route.use(bodyParser.json());
 adminRoute.Initialize(route);
 courseRoute.Initialize(route);
 schoolRoute.Initialize(route);
+courseModuleRoute.Initialize(route);
 
 
 // handle all api requests

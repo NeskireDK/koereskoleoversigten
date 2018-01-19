@@ -10,7 +10,6 @@ export default class School {
     }
 
     static async get(id) {
-        console.log("Break??")
         let [data, metadata] = await database.execute(`
             SELECT *
             FROM school
