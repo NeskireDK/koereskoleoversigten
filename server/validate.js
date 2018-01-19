@@ -43,7 +43,7 @@
                 street:{
                     format: {
                         // Must be numbers followed by a name
-                        pattern: "\\w+(\\s\\w+){2,}",
+                        pattern: /\w+ \s \d+/,
                         message: "kræver både navn og nummer"
                     }
                 }
