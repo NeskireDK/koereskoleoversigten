@@ -10,6 +10,7 @@ import path from 'path'
 import * as database from './database'
 import * as middleware from './middleware.mjs';
 import v from "./validate";
+import * as utils from "./utils"
 
 // import routes
 import adminRoute from './routes/adminRoute'
@@ -60,7 +61,7 @@ const servePolymerApp = (folderName) => {
 
     route.use("/assets", express.static(folderName + '/assets'));
 
-    if (process.env.NODE_ENV !== 'dev') {
+    if (utils.isProductionEnvironment()) {
         folderName += "/build/default"
     }
 
