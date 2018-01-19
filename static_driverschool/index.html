@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <script>
-      document.write('<base href="'+window.location.origin+'/k/">')
+        document.write('<base href="' + window.location.origin + '/k/">')
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -13,14 +13,45 @@
     <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="manifest.json">
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js"></script>
-    <script src="../validate.js"></script>
 
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script>
+        /**
+         * @param input
+         * @param init
+         * @returns {Promise<Response>}
+         */
+        function ajax(input, init = {}) {
+            function isAuthenticated() {
+                // Check whether the current time is past the
+                // access token's expiry time
+                var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+                return new Date().getTime() < expiresAt;
+            }
 
+            function getToken() {
+                return "Bearer " + localStorage.getItem("id_token")
+            }
+
+            if(isAuthenticated()) {
+                if (typeof init.headers === "undefined") {
+                    init.headers = {};
+                }
+                if (typeof init.headers.append === "undefined") {
+                    init.headers["authorization"] = getToken()
+                } else {
+                    init.headers.append("authorization", getToken());
+                }
+            }
+
+            return fetch(input, init)
+        }
+    </script>
     <link rel="import" href="src/kso-app/kso-app.html">
-  </head>
-  <body>
-    <kso-app></kso-app>
-  </body>
+</head>
+<body>
+<kso-app></kso-app>
+<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js"></script>
+<script src="../validate.js"></script>
+</body>
 </html>

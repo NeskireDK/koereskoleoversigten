@@ -35,6 +35,10 @@ route.get("/api/example", (req, res) => { // this is just an example
     res.json({content: "example"});
 });
 
+route.get("/api/secure_example", middleware.driverschoolAuthentication, (req, res) => { // this is just an example
+    res.json({content: "example 2", user: req.user});
+});
+
 route.post("/api/test", middleware.validatePost(v.validations.courseConstraints), (req, res) => {
     res.json({
         "jo": "hoo",

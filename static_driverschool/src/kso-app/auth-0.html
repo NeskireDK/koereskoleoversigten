@@ -1,0 +1,158 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<script src="https://cdn.auth0.com/js/auth0/9.0.1/auth0.min.js"></script>
+
+<dom-module id="auth-0">
+    <template>
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+
+    </template>
+
+    <script>
+
+        var webAuth = new auth0.WebAuth({
+            domain: 'kso-driverschool.eu.auth0.com',
+            clientID: 'bfvNZ24qZ59pU9bc3hd0WScNrD6Hd1mE',
+            responseType: 'token id_token',
+            audience: 'https://kso-driverschool.eu.auth0.com/userinfo',
+            scope: 'openid profile email',
+            redirectUri: window.location.origin + "/k"
+        });
+
+        function handleAuthentication() {
+            return new Promise((resolve, reject) => {
+                webAuth.parseHash(function (err, authResult) {
+                    window.location.hash = '';
+                    if (authResult && authResult.accessToken && authResult.idToken) {
+                        setSession(authResult);
+                        resolve(true)
+                    } else if (err) {
+                        reject(err)
+                    }
+                });
+            });
+
+        }
+
+
+        function setSession(authResult) {
+            // Set the time that the access token will expire at
+            var expiresAt = JSON.stringify(
+                authResult.expiresIn * 1000 + new Date().getTime()
+            );
+            localStorage.setItem('access_token', authResult.accessToken);
+            localStorage.setItem('id_token', authResult.idToken);
+            localStorage.setItem('expires_at', expiresAt);
+        }
+
+        function getUser() {
+
+            return new Promise((resolve, reject) => {
+                if (!isAuthenticated()) {
+                    return reject();
+                }
+                let accessToken = localStorage.getItem("access_token");
+                if (accessToken === null) {
+                    return reject();
+                }
+                webAuth.client.userInfo(accessToken, function (err, user) {
+                    // This method will make a request to the /userinfo endpoint
+                    // and return the user object, which contains the user's information,
+                    // similar to the response below.
+                    if (err === null) {
+                        resolve(user)
+                    } else {
+                        reject(err)
+                    }
+                });
+            })
+        }
+
+        function logout() {
+            // Remove tokens and expiry time from localStorage
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('id_token');
+            localStorage.removeItem('expires_at');
+        }
+
+        function isAuthenticated() {
+            // Check whether the current time is past the
+            // access token's expiry time
+            var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+            return new Date().getTime() < expiresAt;
+        }
+
+
+        class Auth0 extends Polymer.Element {
+            constructor() {
+                super();
+
+
+                if (location.hash !== "") {
+                    handleAuthentication()
+                        .then(getUser)
+                        .then(user => {
+                            this.justLogin = true;
+                            this.user = user;
+                        })
+                        .catch(e => {
+                            this.failToLogin = true;
+                        })
+
+                } else {
+                    getUser()
+                        .then(user => {
+                            this.user = user
+                        })
+                        .catch(_=>{})
+                }
+            }
+
+
+            static get properties() {
+                return {
+                    user: {
+                        type: Object,
+                        notify: true,
+                        value: false
+                    },
+                    justLogin: {
+                        type: Boolean,
+                        notify: true,
+                        value: false
+                    },
+                    failToLogin: {
+                        type: Boolean,
+                        notify: true,
+                        value: false
+                    }
+                }
+            }
+
+            static get is() {
+                return 'auth-0';
+            }
+
+            getWebAuth() {
+                return webAuth;
+            }
+
+            openLoginPopup() {
+                webAuth.authorize();
+            }
+
+            logout(){
+                logout();
+                this.user = false;
+                this.justLogin = false;
+                this.failToLogin = false;
+                webAuth.logout()
+            }
+        }
+
+        window.customElements.define(Auth0.is, Auth0);
+    </script>
+</dom-module>
