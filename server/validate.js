@@ -8,7 +8,6 @@
                         onlyInteger: true,
                         greaterThan: 0
                     }
-
                 },
                 title: {
                     presence: true,
@@ -44,11 +43,19 @@
                     format: {
                         // Must be numbers followed by a name
                         pattern: /\w+ \s \d+/,
-                        message: "kræver både navn og nummer"
+                        message: "^sdadkræver både navn og nummer"
                     }
                 }
             },
             update: {
+                zip: {
+                    presence: true,
+                    numericality: {
+                        onlyInteger: true,
+                        lessThan: 10000,
+                        greaterThan: 554
+                    }
+                },
                 name: {
                     presence: true,
                     length: {
@@ -57,7 +64,7 @@
                 },
                 street: {
                     format: {
-                        pattern: /\w+ \s \d+/,
+                        pattern: /^[A-zæøåÆØÅ]+\s\d+/,
                         message: "^ kræver både navn og nummer"
                     }
                 }
@@ -65,10 +72,13 @@
             }
         }
     };
-
     var setupErrorMessages = function (v) {
-        v.validators.presence.options = {message: "må ikke være tomt"};
-        v.validators.length.options = {tooShort: "skal være mindst %{count} karakterer langt"};
+        v.validators.presence.options = "må ikke være tomt";
+        v.validators.length.options = "skal være mindst %{count} karakterer langt";
+        v.validators.numericality.onlyInteger = "er ikke et tal"
+        v.validators.numericality.notValid = " værdien er ikke gyldig"
+        v.validators.numericality.notGreaterThan = "værdien er for lav, tallet skal være over %{count}"
+        v.validators.numericality.notLessThan = "værdien er for høj, tallet skal være under %{count}"
     };
 
     if (typeof window !== "undefined") {

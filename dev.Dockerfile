@@ -25,4 +25,4 @@ COPY static_frontend static_frontend/
 
 # Start container & expose port 80 (internal)
 EXPOSE 80 9229
-CMD nodemon  --inspect=0.0.0.0 --experimental-modules server/index.mjs -e mjs
+CMD nodemon  --inspect=0.0.0.0 --experimental-modules server/index.mjs

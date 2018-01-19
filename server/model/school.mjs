@@ -71,7 +71,7 @@ export default class School {
                 this.media_id,
                 this.id
             ])
-            console.info("School " + this.title + " updated for school: " + this.school_id)
+            console.info("School <" + this.name + "> updated")
             return this;
         } catch (err) {
             console.warn("Failed to Update School " + this.name + " for school_Id: " + this.id)
