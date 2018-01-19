@@ -52,6 +52,10 @@
 <body>
 <kso-app></kso-app>
 <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js"></script>
-<script src="../validate.js"></script>
+<script>
+    var element = document.createElement("script");
+    element.src = "../validate.js";
+    document.head.appendChild(element);
+</script>
 </body>
 </html>
