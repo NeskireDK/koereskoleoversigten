@@ -61,6 +61,7 @@ export default class Course {
                   INSERT INTO course
                   SET ?`,
                 this)
+            this.id = data.insertId;
             console.info("Course " + this.title + " Created for school: " + this.school_id)
             return this;
         } catch (err) {

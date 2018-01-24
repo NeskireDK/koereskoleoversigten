@@ -1,0 +1,506 @@
+{
+	"info": {
+		"name": "KSO",
+		"_postman_id": "1c6a3c56-fac4-5df3-59dc-5af58d0cb2cd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97717ad8-a35d-4927-93d6-8124b7c18364",
+						"type": "text/javascript",
+						"exec": [
+							"var schema = {",
+							"    \"$id\": \"http://example.com/example.json\",",
+							"    \"type\": \"object\",",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema#\",",
+							"    \"additionalProperties\": false,",
+							"    \"properties\": {",
+							"        \"data\": {",
+							"            \"$id\": \"/properties/data\",",
+							"            \"type\": \"array\",",
+							"            \"additionalItems\": false,",
+							"            \"items\": {",
+							"                \"$id\": \"/properties/data/items\",",
+							"                \"type\": \"object\",",
+							"                \"additionalProperties\": false,",
+							"                \"minProperties\": 11,",
+							"                \"properties\": {",
+							"                    \"id\": {",
+							"                        \"$id\": \"/properties/data/items/properties/id\",",
+							"                        \"type\": \"integer\"",
+							"                    },",
+							"                    \"title\": {",
+							"                        \"$id\": \"/properties/data/items/properties/title\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"description\": {",
+							"                        \"$id\": \"/properties/data/items/properties/description\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"created\": {",
+							"                        \"$id\": \"/properties/data/items/properties/created\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"school_id\": {",
+							"                        \"$id\": \"/properties/data/items/properties/school_id\",",
+							"                        \"type\": \"integer\"",
+							"                    },",
+							"                    \"school\": {",
+							"                        \"$id\": \"/properties/data/items/properties/school\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"schoolInfo\": {",
+							"                        \"$id\": \"/properties/data/items/properties/schoolInfo\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"street\": {",
+							"                        \"$id\": \"/properties/data/items/properties/street\",",
+							"                        \"type\": \"string\"",
+							"                    },",
+							"                    \"zip\": {",
+							"                        \"$id\": \"/properties/data/items/properties/zip\",",
+							"                        \"type\": \"integer\"",
+							"                    },",
+							"                    \"media_id\": {",
+							"                        \"$id\": \"/properties/data/items/properties/media_id\",",
+							"                        \"type\": [\"null\", \"string\"]",
+							"                    },",
+							"                    \"schoolId\": {",
+							"                        \"$id\": \"/properties/data/items/properties/schoolId\",",
+							"                        \"type\": \"integer\"",
+							"                    }",
+							"                }",
+							"            }",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Json schema\"] = tv4.validateResult(jsonData, schema) ",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Name-Jan12\",\r\n    \"email\": \"Updafre.dk\",\r\n    \"password\": \"Update\",\r\n    \"login_token\": \"Update\",\r\n    \"media_id\": null\r\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/course",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"course"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/course/",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8961df5-242b-4a73-96fa-aded608e8990",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"run_uniqe_key\", Math.floor(Math.random()*1000));"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2f8db6e-dda6-405c-82a7-0314c2836182",
+						"type": "text/javascript",
+						"exec": [
+							"var schema = {",
+							"  \"$id\": \"http://example.com/example.json\",",
+							"  \"type\": \"object\",",
+							"  \"definitions\": {},",
+							"  \"$schema\": \"http://json-schema.org/draft-06/schema#\",",
+							"  \"additionalProperties\": false,",
+							"  \"properties\": {",
+							"    \"res\": {",
+							"      \"$id\": \"/properties/res\",",
+							"      \"type\": \"object\",",
+							"      \"additionalProperties\": false,",
+							"      \"minProperties\": 5,",
+							"      \"properties\": {",
+							"        \"id\": {",
+							"          \"$id\": \"/properties/data/items/properties/id\",",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"title\": {",
+							"          \"$id\": \"/properties/res/properties/title\",",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"description\": {",
+							"          \"$id\": \"/properties/res/properties/description\",",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"school_id\": {",
+							"          \"$id\": \"/properties/res/properties/school_id\",",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"created\": {",
+							"          \"$id\": \"/properties/res/properties/created\",",
+							"          \"type\": \"string\"",
+							"        }",
+							"      }",
+							"    }",
+							"  }",
+							"}",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Json schema\"] = tv4.validate(jsonData, schema) === true",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"Title\"] = jsonData.res.title == \"Almindelig kørekort 2018 \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"Description\"] = jsonData.res.description == \"Beskrivelse \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"school_id\"] = jsonData.res.school_id == 1;",
+							"",
+							"pm.environment.set(\"run_insert_id\", jsonData.res.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "description",
+							"value": "Beskrivelse {{run_uniqe_key}}",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Almindelig kørekort 2018 {{run_uniqe_key}}",
+							"type": "text"
+						},
+						{
+							"key": "school_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/course/",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"course",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/course/id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c6237de6-fac7-4b08-b5fb-8a077460bbc9",
+						"type": "text/javascript",
+						"exec": [
+							"var schema = {",
+							"    \"$id\": \"http://example.com/example.json\",",
+							"    \"type\": \"object\",",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema#\",",
+							"    \"additionalProperties\": false,",
+							"    \"properties\": {",
+							"        \"data\": {",
+							"            \"$id\": \"/properties/data/items\",",
+							"            \"type\": \"object\",",
+							"            \"additionalProperties\": false,",
+							"            \"minProperties\": 11,",
+							"            \"properties\": {",
+							"                \"id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/id\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"title\": {",
+							"                    \"$id\": \"/properties/data/items/properties/title\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"description\": {",
+							"                    \"$id\": \"/properties/data/items/properties/description\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"created\": {",
+							"                    \"$id\": \"/properties/data/items/properties/created\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"school_id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/school_id\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"school\": {",
+							"                    \"$id\": \"/properties/data/items/properties/school\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"schoolInfo\": {",
+							"                    \"$id\": \"/properties/data/items/properties/schoolInfo\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"street\": {",
+							"                    \"$id\": \"/properties/data/items/properties/street\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"zip\": {",
+							"                    \"$id\": \"/properties/data/items/properties/zip\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"media_id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/media_id\",",
+							"                    \"type\": [\"null\", \"string\"]",
+							"                },",
+							"                \"schoolId\": {",
+							"                    \"$id\": \"/properties/data/items/properties/schoolId\",",
+							"                    \"type\": \"integer\"",
+							"                }",
+							"            }",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Json schema\"] = tv4.validate(jsonData, schema) === true",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"Title\"] = jsonData.data.title == \"Almindelig kørekort 2018 \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"Description\"] = jsonData.data.description == \"Beskrivelse \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"Id\"] = jsonData.data.id == pm.environment.get(\"run_insert_id\");",
+							"tests[\"School id\"] = jsonData.data.school_id == 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Name-Jan12\",\r\n    \"email\": \"Updafre.dk\",\r\n    \"password\": \"Update\",\r\n    \"login_token\": \"Update\",\r\n    \"media_id\": null\r\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/course/{{run_insert_id}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"{{run_insert_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/course/id update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a4f2d3bb-4cda-4521-b04b-5fa6d3a0f195",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "description",
+							"value": "Update Beskrivelse {{run_uniqe_key}}",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Update Almindelig kørekort 2018 {{run_uniqe_key}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/course/{{run_insert_id}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"{{run_insert_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/course/id update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f808ae46-82a3-4ce7-a4d5-b8972d711f6e",
+						"type": "text/javascript",
+						"exec": [
+							"var schema = {",
+							"    \"$id\": \"http://example.com/example.json\",",
+							"    \"type\": \"object\",",
+							"    \"$schema\": \"http://json-schema.org/draft-06/schema#\",",
+							"    \"additionalProperties\": false,",
+							"    \"properties\": {",
+							"        \"data\": {",
+							"            \"$id\": \"/properties/data/items\",",
+							"            \"type\": \"object\",",
+							"            \"additionalProperties\": false,",
+							"            \"minProperties\": 11,",
+							"            \"properties\": {",
+							"                \"id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/id\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"title\": {",
+							"                    \"$id\": \"/properties/data/items/properties/title\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"description\": {",
+							"                    \"$id\": \"/properties/data/items/properties/description\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"created\": {",
+							"                    \"$id\": \"/properties/data/items/properties/created\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"school_id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/school_id\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"school\": {",
+							"                    \"$id\": \"/properties/data/items/properties/school\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"schoolInfo\": {",
+							"                    \"$id\": \"/properties/data/items/properties/schoolInfo\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"street\": {",
+							"                    \"$id\": \"/properties/data/items/properties/street\",",
+							"                    \"type\": \"string\"",
+							"                },",
+							"                \"zip\": {",
+							"                    \"$id\": \"/properties/data/items/properties/zip\",",
+							"                    \"type\": \"integer\"",
+							"                },",
+							"                \"media_id\": {",
+							"                    \"$id\": \"/properties/data/items/properties/media_id\",",
+							"                    \"type\": [\"null\", \"string\"]",
+							"                },",
+							"                \"schoolId\": {",
+							"                    \"$id\": \"/properties/data/items/properties/schoolId\",",
+							"                    \"type\": \"integer\"",
+							"                }",
+							"            }",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Json schema\"] = tv4.validate(jsonData, schema) === true",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"Title\"] = jsonData.data.title == \"Update Almindelig kørekort 2018 \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"Description\"] = jsonData.data.description == \"Update Beskrivelse \"+pm.environment.get(\"run_uniqe_key\");",
+							"tests[\"Id\"] = jsonData.data.id == pm.environment.get(\"run_insert_id\");",
+							"tests[\"School id\"] = jsonData.data.school_id == 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Name-Jan12\",\r\n    \"email\": \"Updafre.dk\",\r\n    \"password\": \"Update\",\r\n    \"login_token\": \"Update\",\r\n    \"media_id\": null\r\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/course/{{run_insert_id}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"course",
+						"{{run_insert_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
