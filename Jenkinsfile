@@ -1,4 +1,5 @@
 node {
+    echo "from 20:49 24/1/18"
     echo "Fetching from git"
     git credentialsId: 'NeskireDK-Github', url: 'https://github.com/NeskireDK/koereskoleoversigten'
     echo "Docker"
