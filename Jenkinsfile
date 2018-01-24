@@ -1,9 +1,11 @@
 node {
     echo "Fetching from git"
-    git branch: 'master', credentialsId: '12drive-neskiredk-backend', url: 'https://github.com/NeskireDK/koereskoleoversigten'
+    git credentialsId: 'NeskireDK-Github', url: 'https://github.com/NeskireDK/koereskoleoversigten'
     echo "Docker"
+    def app = docker.build("neskire/koereskoleoversigten:${env.BUILD_ID}",'.')
     withDockerRegistry([credentialsId: 'docker-repo-neskire', url: 'https://registry.hub.docker.com']) {
-        def app = docker.build("neskire/koereskoleoversigten:${env.BUILD_ID}",'.')
         app.push()
     }
+
+
 }
