@@ -38,10 +38,10 @@ pipeline {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
-                    sh 'sudo docker login --username $USERNAME --password $PASSWORD'
+                    sh "sudo docker login --username $USERNAME --password $PASSWORD"
                     sh "sudo docker push neskire/koereskoleoversigten:${env.BUILD_ID}"
 
-                    sh "sudo docker tag neskire/koereskoleoversigten:${env.BUILD_ID} neskire/koereskoleoversigten:latest "
+                    sh "sudo docker tag neskire/koereskoleoversigten:${env.BUILD_ID} neskire/koereskoleoversigten:latest"
                     sh "sudo docker push neskire/koereskoleoversigten:latest"
                 }
             }
@@ -55,6 +55,11 @@ pipeline {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                     sh "ssh -i $key_aws admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
+
+                    sh 'ssh -i $key_aws admin@aws.ariksen.dk <<-ENDSSH\n' +
+                                            "sudo docker login --username ${USERNAME} --password $PASSWORD\n" +
+                                            'echo lol' +
+                                            'ENDSSH\n'
                 }
 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'kso_aws',
