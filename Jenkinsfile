@@ -39,6 +39,7 @@ pipeline {
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
                     sh 'sudo docker login --username $USERNAME --password $PASSWORD'
+                    sh 'sudo docker push neskire/koereskoleoversigten:${env.BUILD_ID}'
                 }
             }
         }
