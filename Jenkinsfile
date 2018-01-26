@@ -9,7 +9,7 @@ pipeline {
         stage("docker build") {
             steps {
                 script {
-                    docker.build('kso')
+                    sh "sudo docker build -t kso ."
                 }
             }
         }
