@@ -34,18 +34,17 @@ pipeline {
         }
 
         stage("push image"){
-
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
-                    sh 'docker login --username $USERNAME --password $PASSWORD'
+                    sh 'sudo docker login --username $USERNAME --password $PASSWORD'
                 }
             }
         }
 
-
     }
+
     post {
         always {
             sh "sudo docker rm -f kso"
