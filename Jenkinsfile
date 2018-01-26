@@ -56,7 +56,7 @@ pipeline {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'kso_aws',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
-                    sh 'ssh -i $key_aws admin@aws.ariksen.dk && docker pull neskire/koereskoleoversigten:latest && docker rm -f kso && docker run --name kso -p 80:80 neskire/koereskoleoversigten:latest'
+                    sh 'ssh -i $key_aws admin@aws.ariksen.dk "docker pull neskire/koereskoleoversigten:latest && docker rm -f kso && docker run --name kso -p 80:80 neskire/koereskoleoversigten:latest"'
                 }
             }
         }
