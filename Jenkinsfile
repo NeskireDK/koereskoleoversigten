@@ -33,13 +33,30 @@ pipeline {
             }
         }
 
-        stage("push image"){
+        stage("push image to hub"){
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
+                    sh 'sudo docker tag marc/test marc/test:2 '
                     sh 'sudo docker login --username $USERNAME --password $PASSWORD'
                     sh "sudo docker push neskire/koereskoleoversigten:${env.BUILD_ID}"
+
+                    sh 'sudo docker tag neskire/koereskoleoversigten:latest neskire/koereskoleoversigten:${env.BUILD_ID}'
+                    sh "sudo docker push neskire/koereskoleoversigten:latest"
+                }
+            }
+        }
+
+        stage("deploy on staging"){
+            environment {
+                key_aws = credentials('key_aws')
+            }
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'kso_aws',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                    sh 'ssh -i $key_aws admin@aws.ariksen.dk && docker pull neskire/koereskoleoversigten:latest && docker rm -f kso && docker run --name kso -p 80:80 neskire/koereskoleoversigten:latest'
                 }
             }
         }
