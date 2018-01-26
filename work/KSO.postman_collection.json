@@ -84,7 +84,7 @@
 							"var jsonData = JSON.parse(responseBody);",
 							"",
 							"tests[\"Json schema\"] = tv4.validateResult(jsonData, schema) ",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Status code is 200\"] = responseCode.code !== 200;",
 							"",
 							""
 						]
