@@ -39,7 +39,7 @@ pipeline {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
-                    sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                    sh 'docker login --username $USERNAME --password $PASSWORD'
                 }
             }
         }
