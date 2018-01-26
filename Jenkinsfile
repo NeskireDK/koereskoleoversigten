@@ -9,9 +9,6 @@ pipeline {
         stage("docker build") {
             steps {
                 script {
-                    echo "Password is"
-                    echo $neskire-docker-hub
-
                     sh "sudo docker build -t kso ."
                 }
             }
