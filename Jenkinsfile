@@ -37,6 +37,17 @@ pipeline {
             }
         }
 
+        stage("push image"){
+
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire-docker-hub',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                    sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                }
+            }
+        }
+
 
     }
     post {
