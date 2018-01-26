@@ -27,8 +27,8 @@ pipeline {
             steps {
                 script {
                     sh "sudo docker exec kso npm install newman --global"
-                    sh "cp work/KSO_local.postman_environment.json kso:/"
-                    sh "cp work/KSO.postman_collection.json kso:/"
+                    sh "sudo docker cp work/KSO_local.postman_environment.json kso:/"
+                    sh "sudo docker cp work/KSO.postman_collection.json kso:/"
                     sh "sudo docker exec kso ls"
                 }
             }
