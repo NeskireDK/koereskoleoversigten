@@ -4,10 +4,6 @@ pipeline {
         label 'master'
     }
 
-    tools {
-        docker 'docker'
-    }
-
     stages {
 
         stage("docker build") {
