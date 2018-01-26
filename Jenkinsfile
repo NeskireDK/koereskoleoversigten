@@ -17,7 +17,7 @@ pipeline {
         stage("docker run") {
             steps {
                 script {
-                    sh "docker run -p 80:80 --name kso kso-prod "
+                    sh "sudo docker run --name kso kso-prod "
                 }
             }
         }
