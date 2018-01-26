@@ -9,8 +9,10 @@ pipeline {
         stage("docker build") {
             steps {
                 script {
-                    sh "sudo -s"
-                    sh "docker build -t kso ."
+                    echo "Password is"
+                    echo $neskire-docker-hub
+
+                    sh "sudo docker build -t kso ."
                 }
             }
         }
@@ -18,9 +20,8 @@ pipeline {
         stage("docker run") {
             steps {
                 script {
-                    sh "sudo -s"
-                    sh "docker rm -f kso"
-                    sh "docker run -d --name kso kso "
+                    sh "sudo docker rm -f kso"
+                    sh "sudo docker run -d --name kso kso "
                 }
             }
         }
@@ -28,11 +29,10 @@ pipeline {
         stage("newman test") {
             steps {
                 script {
-                    sh "sudo -s"
-                    sh "docker exec kso npm install newman --global"
-                    sh "docker cp work/KSO_local.postman_environment.json kso:/usr/src/app"
-                    sh "docker cp work/KSO.postman_collection.json kso:/usr/src/app"
-                    sh "docker exec kso newman run KSO.postman_collection.json -e KSO_local.postman_environment.json"
+                    sh "sudo docker exec kso npm install newman --global"
+                    sh "sudo docker cp work/KSO_local.postman_environment.json kso:/usr/src/app"
+                    sh "sudo docker cp work/KSO.postman_collection.json kso:/usr/src/app"
+                    sh "sudo docker exec kso newman run KSO.postman_collection.json -e KSO_local.postman_environment.json"
                 }
             }
         }
@@ -41,7 +41,7 @@ pipeline {
     }
     post {
         always {
-            sh "docker rm -f kso"
+            sh "sudo docker rm -f kso"
             cleanWs()
         }
     }
