@@ -9,7 +9,7 @@ pipeline {
         stage("docker build") {
             steps {
                 script {
-                    sh "sudo docker build -t kso ."
+                    sh "sudo docker build -t neskire/koereskoleoversigten:${env.BUILD_ID} ."
                 }
             }
         }
@@ -17,7 +17,7 @@ pipeline {
         stage("docker run") {
             steps {
                 script {
-                    sh "sudo docker run -d --name kso kso "
+                    sh "sudo docker run -d --name kso neskire/koereskoleoversigten:${env.BUILD_ID} "
                 }
             }
         }
