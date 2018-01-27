@@ -5,6 +5,19 @@ pipeline {
     }
 
     stages {
+        stage('SSH') {
+            environment {
+                key_aws = credentials('key_aws')
+            }
+
+            steps {
+                sh 'ssh -i $key_aws admin@aws.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                        'sudo docker rm -f kso\n' +
+                        'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                        'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
+                        'ENDSSH\n'
+            }
+        }
 
         stage("docker build") {
             steps {
@@ -52,20 +65,13 @@ pipeline {
                 key_aws = credentials('key_aws')
             }
             steps {
-                withCredentials([[$class: 'SSHUserPrivateKeyBinding', credentialsId: 'kso_aws',
-                    usernameVariable: 'USERNAME', keyFileVariable: 'KEY',  passphraseVariable: 'PASSWORD']]) {
-                    sh "ssh -i ${KEY} admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
-
-                    sh 'ssh -i ${KEY} admin@aws.ariksen.dk <<-ENDSSH\n' +
-                                            "sudo docker login --username ${USERNAME} --password $PASSWORD\n" +
-                                            'echo lol' +
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
+                usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
+                    sh 'ssh -i $key_aws admin@aws.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                                            'sudo docker rm -f kso\n' +
+                                            'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                                            'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
                                             'ENDSSH\n'
-                }
-
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'kso_aws',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-                    sh "ssh -i $key_aws $USERNAME@aws.ariksen.dk \"docker pull neskire/koereskoleoversigten:latest && docker rm -f kso && docker run --name kso -p 80:80 neskire/koereskoleoversigten:latest\""
                 }
             }
         }

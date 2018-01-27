@@ -154,6 +154,7 @@
                     }
                 },
                 street: {
+                    presence: true,
                     format: {
                         pattern: /^[A-zæøåÆØÅ]+\s\d+/,
                         message: "Adresse kræver både vejnavn og nummer"
