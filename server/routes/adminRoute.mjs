@@ -15,9 +15,7 @@ export default class AdminRoute {
         route.get("/api/admin/:id", async (req, res) => {
             let a = await Admin.get(req.params.id)
             if (a) {
-                res.json({
-                    data: a,
-                })
+                res.json(a)
             } else {
                 res.sendStatus(404)
             }
@@ -26,9 +24,7 @@ export default class AdminRoute {
         // Insert admin via Post
         route.post("/api/admin/", async (req, res) => {
             const obj = new Admin({name: req.body.name, email: req.body.email, password: req.body.password})
-            res.json({
-                res: await obj.insert()
-            })
+            res.json(await obj.insert())
         });
         // Update admin via Put
         route.put("/api/admin/:id", async (req, res) => {

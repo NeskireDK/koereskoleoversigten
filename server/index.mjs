@@ -18,6 +18,7 @@ import adminRoute from './routes/adminRoute'
 import courseRoute from './routes/courseRoute'
 import schoolRoute from './routes/schoolRoute'
 import courseModuleRoute from './routes/courseModuleRoute'
+import applicationRoute from './routes/applicationRoute'
 
 
 const __dirname = "/usr/src/app/server";
@@ -32,6 +33,7 @@ adminRoute.Initialize(route);
 courseRoute.Initialize(route);
 schoolRoute.Initialize(route);
 courseModuleRoute.Initialize(route);
+applicationRoute.Initialize(route);
 
 
 // handle all api requests

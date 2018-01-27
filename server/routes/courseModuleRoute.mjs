@@ -7,17 +7,13 @@ export default class CourseModuleRoute {
         // Get All courseModules
         route.get("/api/courseModule", async (req, res) => {
             let a = await courseModule.getAll()
-            res.json({
-                data: a,
-            })
+            res.json(a)
             console.log("Hello getting all courseModules!")
         });
         // Get single courseModule per id
         route.get("/api/courseModule/:id", async (req, res) => {
             let a = await courseModule.get(req.params.id)
-            res.json({
-                data: a,
-            })
+            res.json(a)
             console.error(`Specific courseModule was fetched: ${req.params.id}!`)
         });
         // Insert courseModule via Post
@@ -29,9 +25,7 @@ export default class CourseModuleRoute {
                 date: req.body.date,
                 course_id: req.body.course_id
             })
-            res.json({
-                res: await obj.insert()
-            })
+            res.json(await obj.insert())
         });
 
         // Update courseModule via Put
@@ -41,9 +35,7 @@ export default class CourseModuleRoute {
             // Update
             if (obj) {
                 Object.assign(obj, req.body)
-                res.json({
-                    res: await obj.update()
-                })
+                res.json(await obj.update())
             } else {
                 res.sendStatus(404)
             }

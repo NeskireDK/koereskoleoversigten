@@ -7,17 +7,13 @@ export default class SchoolRoute {
         // Get All schools
         route.get("/api/school", async (req, res) => {
             let a = await school.getAll()
-            res.json({
-                data: a,
-            })
+            res.json(a)
             console.log("Hello getting all schools!")
         });
         // Get single school per id
         route.get("/api/school/:id", async (req, res) => {
             let a = await school.get(req.params.id)
-            res.json({
-                data: a,
-            })
+            res.json(a)
             console.error(`Specific school was fetched: ${req.params.id}!`)
         });
         // Insert school via Post
@@ -28,9 +24,7 @@ export default class SchoolRoute {
                 description: req.body.description,
                 school_id: req.body.school_id
             })
-            res.json({
-                res: await obj.insert()
-            })
+            res.json(await obj.insert())
         });
 
         // Update school via Put
@@ -40,9 +34,7 @@ export default class SchoolRoute {
             // Update
             if (obj) {
                 Object.assign(obj, req.body)
-                res.json({
-                    res: await obj.update()
-                })
+                await obj.update()
             } else {
                 res.sendStatus(404)
             }
