@@ -1,0 +1,30 @@
+docker run --rm -d -p 80:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --privileged --name jenkins jenkins/jenkins
+
+docker exec -it -u root jenkins bash
+
+apt-get update && \
+apt-get -y install apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common && \
+curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+   $(lsb_release -cs) \
+   stable" && \
+apt-get update && \
+apt-get -y install docker-ce
+
+sudo apt-get install nano
+sudo nano /etc/sudoers
+
+
+
+
+jenkins ALL=(ALL) NOPASSWD: ALL
+
+
+
+
+https://getintodevops.com/blog/the-simple-way-to-run-docker-in-docker-for-ci
