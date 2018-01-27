@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
                 withCredentials([[$class: 'SSHUserPrivateKeyBinding', credentialsId: 'kso_aws',
-                    usernameVariable: 'USERNAME', keyFileVariable: 'KEY',  passwordVariable: 'PASSWORD']]) {
+                    usernameVariable: 'USERNAME', keyFileVariable: 'KEY',  passphraseVariable: 'PASSWORD']]) {
                     sh "ssh -i ${KEY} admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
 
                     sh 'ssh -i ${KEY} admin@aws.ariksen.dk <<-ENDSSH\n' +
