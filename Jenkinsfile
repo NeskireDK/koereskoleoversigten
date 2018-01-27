@@ -52,11 +52,11 @@ pipeline {
                 key_aws = credentials('key_aws')
             }
             steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "ssh -i $key_aws admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
+                withCredentials([[$class: 'SSHUserPrivateKeyBinding', credentialsId: 'kso_aws',
+                    usernameVariable: 'USERNAME', keyFileVariable: 'KEY',  passwordVariable: 'PASSWORD']]) {
+                    sh "ssh -i ${KEY} admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
 
-                    sh 'ssh -i $key_aws admin@aws.ariksen.dk <<-ENDSSH\n' +
+                    sh 'ssh -i ${KEY} admin@aws.ariksen.dk <<-ENDSSH\n' +
                                             "sudo docker login --username ${USERNAME} --password $PASSWORD\n" +
                                             'echo lol' +
                                             'ENDSSH\n'

@@ -25,6 +25,38 @@
                 }
             }
         },
+        application: {
+            insert: {
+                course_id: {
+                    presence: true,
+                    numericality: {
+                        onlyInteger: true,
+                        greaterThan: 0
+                    }
+                },
+                customer_id: {
+                    presence: true,
+                    numericality: {
+                        onlyInteger: true,
+                        greaterThan: 0
+                    }
+                }
+            },
+            course_id: {
+                presence: true,
+                numericality: {
+                    onlyInteger: true,
+                    greaterThan: 0
+                }
+            },
+            customer_id: {
+                presence: true,
+                numericality: {
+                    onlyInteger: true,
+                    greaterThan: 0
+                }
+            }
+        },
         courseModule: {
             insert: {
                 title: {
