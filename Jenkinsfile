@@ -2,7 +2,6 @@ pipeline {
     agent {
         label 'master'
     }
-
     stages {
         stage("docker build") {
             steps {
@@ -18,7 +17,6 @@ pipeline {
                 }
             }
         }
-
         stage("newman test") {
             steps {
                 script {
@@ -29,7 +27,6 @@ pipeline {
                 }
             }
         }
-
         stage("push image to hub"){
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
