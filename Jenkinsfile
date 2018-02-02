@@ -43,7 +43,7 @@ pipeline {
         stage("deploy on staging"){
             when {
                 not {
-                    branch 'master'
+                    branch 'origin/master'
                 }
             }
             environment {
@@ -62,7 +62,7 @@ pipeline {
         }
         stage("deploy on production"){
             when {
-                branch 'master'
+                branch 'origin/master'
             }
             environment {
                 key_aws = credentials('key_aws')
