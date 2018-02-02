@@ -85,7 +85,6 @@ pipeline {
     post {
         always {
             sh "sudo docker rm -f kso"
-            cleanWs()
         }
     }
 }
