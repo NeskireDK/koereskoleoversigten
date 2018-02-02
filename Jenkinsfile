@@ -78,10 +78,12 @@ pipeline {
                 }
             }
         }
-        if (env.BRANCH_NAME == "master") {
-            echo "This is master branch"
-        } else {
-            echo "This is not master branch"
+        script{
+            if (env.BRANCH_NAME == "master") {
+                echo "This is master branch"
+            } else {
+                echo "This is not master branch"
+            }
         }
     }
     post {
