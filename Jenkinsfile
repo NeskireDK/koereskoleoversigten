@@ -61,6 +61,11 @@ pipeline {
             }
         }
         stage("deploy on production"){
+            if (env.BRANCH_NAME == "master") {
+                    echo "This is master branch"
+                } else {
+                    echo "This is not master branch"
+                }
             when {
                 branch 'origin/master'
             }
