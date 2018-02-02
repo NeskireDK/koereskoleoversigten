@@ -68,6 +68,13 @@ pipeline {
                 key_aws = credentials('key_aws')
             }
             steps {
+                script{
+                    if (env.BRANCH_NAME == "master") {
+                        echo "This is master branch"
+                    } else {
+                        echo "This is not master branch"
+                    }
+                }
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
                 usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
                     sh  'ssh -i $key_aws admin@kso.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
@@ -78,13 +85,7 @@ pipeline {
                 }
             }
         }
-        script{
-            if (env.BRANCH_NAME == "master") {
-                echo "This is master branch"
-            } else {
-                echo "This is not master branch"
-            }
-        }
+
     }
     post {
         always {
