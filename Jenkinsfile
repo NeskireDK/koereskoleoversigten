@@ -45,6 +45,49 @@ pipeline {
         }
 
         stage("deploy on staging"){
+            when {
+                not {
+                    branch 'master'
+                }
+            }
+            environment {
+                key_aws = credentials('key_aws')
+            }
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
+                usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
+                    sh  'ssh -i $key_aws admin@kso.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                        'sudo docker rm -f kso\n' +
+                        'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                        'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
+                        'ENDSSH\n'
+                }
+            }
+        }
+        stage("deploy on staging"){
+            when {
+                not {
+                    branch 'master'
+                }
+            }
+            environment {
+                key_aws = credentials('key_aws')
+            }
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
+                usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
+                    sh  'ssh -i $key_aws admin@aws.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                        'sudo docker rm -f kso\n' +
+                        'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                        'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
+                        'ENDSSH\n'
+                }
+            }
+        }
+        stage("deploy on production"){
+            when {
+                branch 'master'
+            }
             environment {
                 key_aws = credentials('key_aws')
             }
