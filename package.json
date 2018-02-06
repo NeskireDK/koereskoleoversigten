@@ -14,7 +14,7 @@
   "description": "kso (Koereskoleoversigten)",
   "main": "server/index",
   "scripts": {
-    "start": "node --experimental-modules server/index.mjs --inspect=0.0.0.0:9229",
+    "start": "node --experimental-modules server/index.mjs",
     "dev": "nodemon -l --watch --experimental-modules  ./src/index.mjs --inspect=0.0.0.0:9229"
   },
   "repository": "https://github.com/NeskireDK/koereskoleoversigten.git",
