@@ -10,27 +10,32 @@ export default class Course {
     }
 
     static async get(id) {
-        let [data, metadata] = await database.execute(`
-            SELECT
+        try {
+            let [data, metadata] = await database.execute(`
+              SELECT
                 c.id,
-                c.title title,
+                c.title       title,
                 c.description description,
                 c.created,
                 c.school_id,
-                s.name school,
+                s.name        school,
                 s.description schoolInfo,
                 s.street,
                 s.zip,
                 s.media_id,
-                s.id schoolId
-            FROM course c
-            LEFT JOIN school s ON c.school_id=s.id
-            WHERE c.id = ?`, [id])
-        if (data[0]) {
-            return new Course(data[0])
+                s.id          schoolId
+              FROM course c
+                LEFT JOIN school s ON c.school_id = s.id
+              WHERE c.id = ?`, [id])
+            if (data[0]) {
+                return new Course(data[0])
+            }
+            console.info("No such course by id: " + id)
+            return null
+        } catch (e) {
+            console.error(e)
+            return "An unknown error occurred"
         }
-        console.info("No such course by id: " + id)
-        return null
     }
 
     static async getAll() {

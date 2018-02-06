@@ -15,7 +15,7 @@ export default class CourseRoute {
         route.get("/api/course/:id", async (req, res) => {
             let a = await course.get(req.params.id)
             res.json(a)
-            console.error(`Specific course was fetched: ${req.params.id}!`)
+            console.log(`Specific course was fetched: ${req.params.id}!`)
         });
         // Insert course via Post
         route.post("/api/course/", middleware.validatePost(v.validations.course.insert), async (req, res) => {

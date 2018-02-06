@@ -1,11 +1,8 @@
 pipeline {
-
     agent {
         label 'master'
     }
-
     stages {
-
         stage("docker build") {
             steps {
                 script {
@@ -13,7 +10,6 @@ pipeline {
                 }
             }
         }
-
         stage("docker run") {
             steps {
                 script {
@@ -21,7 +17,6 @@ pipeline {
                 }
             }
         }
-
         stage("newman test") {
             steps {
                 script {
@@ -32,7 +27,6 @@ pipeline {
                 }
             }
         }
-
         stage("push image to hub"){
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
@@ -46,36 +40,56 @@ pipeline {
                 }
             }
         }
-
         stage("deploy on staging"){
+            when {
+                not {
+                    branch 'origin/master'
+                }
+            }
             environment {
                 key_aws = credentials('key_aws')
             }
             steps {
-                withCredentials([[$class: 'SSHUserPrivateKeyBinding', credentialsId: 'kso_aws',
-                    usernameVariable: 'USERNAME', keyFileVariable: 'KEY',  passphraseVariable: 'PASSWORD']]) {
-                    sh "ssh -i ${KEY} admin@aws.ariksen.dk \"sudo docker login --username ${USERNAME} --password ${PASSWORD}\""
-
-                    sh 'ssh -i ${KEY} admin@aws.ariksen.dk <<-ENDSSH\n' +
-                                            "sudo docker login --username ${USERNAME} --password $PASSWORD\n" +
-                                            'echo lol' +
-                                            'ENDSSH\n'
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
+                usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
+                    sh  'ssh -i $key_aws admin@aws.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                        'sudo docker rm -f kso\n' +
+                        'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                        'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
+                        'ENDSSH\n'
                 }
-
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'kso_aws',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-                    sh "ssh -i $key_aws $USERNAME@aws.ariksen.dk \"docker pull neskire/koereskoleoversigten:latest && docker rm -f kso && docker run --name kso -p 80:80 neskire/koereskoleoversigten:latest\""
+            }
+        }
+        stage("deploy on production"){
+            when {
+                branch 'origin/master'
+            }
+            environment {
+                key_aws = credentials('key_aws')
+            }
+            steps {
+                script{
+                    if (env.BRANCH_NAME == "master") {
+                        echo "This is master branch"
+                    } else {
+                        echo "This is not master branch"
+                    }
+                }
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'neskire_docker_hub',
+                usernameVariable: 'USERNAME',  passwordVariable: 'PASSWORD']]) {
+                    sh  'ssh -i $key_aws admin@kso.ariksen.dk -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no <<-ENDSSH\n' +
+                        'sudo docker rm -f kso\n' +
+                        'sudo docker login -u $USERNAME -p $PASSWORD \n' +
+                        'sudo docker run -d -p 80:80 --name kso neskire/koereskoleoversigten \n' +
+                        'ENDSSH\n'
                 }
             }
         }
 
     }
-
     post {
         always {
             sh "sudo docker rm -f kso"
-            cleanWs()
         }
     }
 }
